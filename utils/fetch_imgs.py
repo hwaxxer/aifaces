@@ -16,7 +16,7 @@ class GoogleImageSearch(object):
 
     def fetch_img_links(self, query):
         base_url = "https://www.google.com/search"
-        path_query = "?q=ai+face&tbm=isch&source=lnt&tbs=itp:face&sa=X&ved=0ahUKEwjrksn91tzWAhWEK5oKHdBvCSQQpwUIHw&biw=1440&bih=732&dpr=2".format(query)
+        path_query = "?as_st=y&tbm=isch&hl=en&as_q=ai+face&as_epq=&as_oq=&as_eq=&cr=&as_sitesearch=&safe=images&tbs=isz:m,itp:face,sur:f".format(query)
         soup = self._get_soup(base_url+path_query, self.headers)
         image_links = []
         for link in soup.find_all("div", { "class": "rg_meta" }):
@@ -29,7 +29,7 @@ class GoogleImageSearch(object):
             os.makedirs(directory)
         for i, (url, image_type) in enumerate(image_urls):
             if i % 10 == 0:
-                print('Writing image {}/{}...'.format(i, len(image_urls)))
+                print('Downloading {}/{} images...'.format(i+10, len(image_urls)))
             try:
                 req = request.Request(url, headers=self.headers)
                 resp = request.urlopen(req)
